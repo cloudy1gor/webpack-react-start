@@ -1,0 +1,89 @@
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+address,
+img,
+small,
+strong,
+sub,
+sup,
+b,
+i,
+ol,
+ul,
+li,
+form,
+label,
+article,
+aside,
+footer,
+header,
+nav,
+section,
+time,
+audio,
+video {
+  margin: 0;
+  outline: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+html {
+  word-break: normal;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  scroll-behavior: smooth;
+}
+
+ul[class],
+ol {
+  list-style: none;
+}
+
+a {
+  outline: 0;
+  text-decoration: none;
+  background: transparent;
+  text-decoration-skip-ink: none;
+}
+
+address {
+  font-style: normal;
+}
+
+input,
+button,
+textarea,
+select {
+  vertical-align: middle;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+:focus {
+  outline: none;
+}

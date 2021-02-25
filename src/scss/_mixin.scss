@@ -1,0 +1,147 @@
+@mixin pseudo($display: block, $pos: absolute, $content: "") {
+  content: $content;
+  position: $pos;
+  display: $display;
+}
+@mixin bg($repeat: no-repeat, $size: cover, $position: center center) {
+  background-position: $position;
+  background-size: $size;
+  background-repeat: $repeat;
+}
+@mixin txt($lc: 3) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: $lc;
+  -webkit-box-orient: vertical;
+  line-clamp: $lc;
+  box-orient: vertical;
+}
+@mixin btnanim($max: 1.05, $min: 0.95) {
+  transform-origin: center center;
+  transition: all ease-out 240ms;
+
+  &:hover {
+    transform: scale($max);
+  }
+
+  &:focus {
+    transform: scale($max) trahslateY(-5%);
+  }
+
+  &:active {
+    transform: scale($min);
+  }
+}
+@mixin font($name, $file, $weight: 400, $style: normal) {
+  @font-face {
+    font-family: "#{$name}";
+    src: url("../fonts/#{$file}.eot");
+    src: url("../fonts/#{$file}.eot?#iefix") format("embedded-opentype"),
+      url("../fonts/#{$file}.woff2") format("woff2"),
+      url("../fonts/#{$file}.woff") format("woff");
+    font-weight: $weight;
+    font-style: $style;
+    font-display: swap;
+  }
+}
+@mixin center($dir) {
+  position: absolute;
+
+  @if $dir==v {
+    top: 50%;
+    transform: translateY(-50%);
+  } @else if $dir==h {
+    left: 50%;
+    transform: translateX(-50%);
+  } @else {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+$breakpoints: (
+  "400": 400px,
+  "480": 480px,
+  "560": 560px,
+  "640": 640px,
+  "768": 768px,
+  "1024": 1024px,
+  "1248": 1248px,
+  "1920": 1920px,
+);
+@mixin mq($width, $type: max) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+
+    @if $type==max {
+      $width: $width - 1px;
+    }
+
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+
+@function max($numbers...) {
+  @return m#{a}x(#{$numbers});
+}
+
+@function min($numbers...) {
+  @return m#{i}n(#{$numbers});
+}
+
+// Бэкграунд на всю ширину экрана.
+// пример: @include cover-background("../img/main.jpg", top, center, scroll);
+@mixin cover-background(
+  $img-uri,
+  $background-top: "center",
+  $background-left: "center",
+  $background-attachment: "fixed"
+) {
+  background: url($img-uri) no-repeat unquote($background-top)
+    unquote($background-left) unquote($background-attachment);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+// горизонтальное выравнивание для inline блока
+// пример: @include justify;
+@mixin justify {
+  text-align: justify;
+  line-height: 0;
+  font-size: 0;
+  text-justify: newspaper;
+  zoom: 1;
+  text-align-last: justify;
+
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+    height: 0px;
+    visibility: hidden;
+    overflow: hidden;
+  }
+}
+
+// вертикальное выравнивание для inline блока
+// пример: @include vertical
+@mixin vertical {
+  text-align: center;
+  font-size: 0;
+
+  &:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 100%;
+  }
+}
