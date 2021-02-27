@@ -40,8 +40,8 @@ npm-debug.*
 dist/
 package.json
 gulpfile.js
-.jshintrc
-.stylelintrcs
+# .jshintrc
+# .stylelintrcs
 package-lock.json
 desktop.ini
 
