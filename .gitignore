@@ -3,6 +3,7 @@
 /.pnp
 .pnp.js
 
+
 # testing
 /coverage
 
@@ -25,3 +26,22 @@ yarn-error.log*
 .idea
 *.sublime*
 .vscode
+
+.DS_Store
+.idea/
+.idea/*
+.vscode
+*.sublime*
+node_modules/
+npm-debug.*
+*.fig
+*.psd
+*.png
+dist/
+package.json
+gulpfile.js
+.jshintrc
+.stylelintrcs
+package-lock.json
+desktop.ini
+
