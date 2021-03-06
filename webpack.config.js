@@ -46,17 +46,14 @@ const config = {
   },
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.html$/,
-        use: [
-          {
-            loader: "html-loader",
-            options: {
-              minimize: false,
-            },
+        use: [{
+          loader: "html-loader",
+          options: {
+            minimize: false,
           },
-        ],
+        }, ],
       },
 
       {
@@ -72,8 +69,7 @@ const config = {
 
       {
         test: /\.(sa|sc|c)ss$/,
-        use: [
-          {
+        use: [{
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: "../",
@@ -99,8 +95,7 @@ const config = {
 
       {
         test: /\.(png|jpe?g|gif|svg)$/,
-        use: [
-          {
+        use: [{
             loader: "file-loader",
             options: {
               outputPath: "./assets/images/`",
@@ -135,15 +130,13 @@ const config = {
       },
       {
         test: /\.(woff|woff2|ttf|otf|eot)$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              outputPath: "./assets/fonts",
-              name: "[name].[ext]",
-            },
+        use: [{
+          loader: "file-loader",
+          options: {
+            outputPath: "./assets/fonts",
+            name: "[name].[ext]",
           },
-        ],
+        }, ],
       },
     ],
   },
@@ -162,12 +155,10 @@ const config = {
       filename: "./index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, "./src/assets/images"),
-          to: path.resolve(__dirname, "dist/assets/images"),
-        },
-      ],
+      patterns: [{
+        from: path.resolve(__dirname, "./src/assets/images"),
+        to: path.resolve(__dirname, "dist/assets/images"),
+      }, ],
     }),
     new BundleAnalyzerPlugin(),
   ],

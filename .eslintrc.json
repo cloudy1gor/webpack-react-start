@@ -5,18 +5,24 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb/base"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb/base", "prettier"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 12
   },
-  "plugins": ["react"],
+  "plugins": ["react", "prettier"],
   "rules": {
-    "indent": ["error", 4],
+    "jsx-quotes": [
+      1,
+      "prefer-double"
+    ],
+    "indent": ["error", 2],
     // "linebreak-style": ["error", "windows"],
     "quotes": ["error", "double"],
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "prefer-destructuring": "off",
+    "class-methods-use-this": "off"
   }
 }
