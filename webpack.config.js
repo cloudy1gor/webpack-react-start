@@ -2,8 +2,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const path = require("path");
 
 const ENV = process.env.npm_lifecycle_event;
@@ -46,14 +45,17 @@ const config = {
   },
 
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.html$/,
-        use: [{
-          loader: "html-loader",
-          options: {
-            minimize: false,
+        use: [
+          {
+            loader: "html-loader",
+            options: {
+              minimize: true,
+            },
           },
-        }, ],
+        ],
       },
 
       {
@@ -69,7 +71,8 @@ const config = {
 
       {
         test: /\.(sa|sc|c)ss$/,
-        use: [{
+        use: [
+          {
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: "../",
@@ -95,7 +98,8 @@ const config = {
 
       {
         test: /\.(png|jpe?g|gif|svg)$/,
-        use: [{
+        use: [
+          {
             loader: "file-loader",
             options: {
               outputPath: "./assets/images/`",
@@ -114,8 +118,8 @@ const config = {
                 enabled: false,
               },
               pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4,
+                quality: [0.65, 0.8],
+                speed: 1,
               },
               gifsicle: {
                 interlaced: false,
@@ -130,13 +134,15 @@ const config = {
       },
       {
         test: /\.(woff|woff2|ttf|otf|eot)$/,
-        use: [{
-          loader: "file-loader",
-          options: {
-            outputPath: "./assets/fonts",
-            name: "[name].[ext]",
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              outputPath: "./assets/fonts",
+              name: "[name].[ext]",
+            },
           },
-        }, ],
+        ],
       },
     ],
   },
@@ -155,10 +161,12 @@ const config = {
       filename: "./index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{
-        from: path.resolve(__dirname, "./src/assets/images"),
-        to: path.resolve(__dirname, "dist/assets/images"),
-      }, ],
+      patterns: [
+        {
+          from: path.resolve(__dirname, "./src/assets/images"),
+          to: path.resolve(__dirname, "dist/assets/images"),
+        },
+      ],
     }),
     new BundleAnalyzerPlugin(),
   ],
