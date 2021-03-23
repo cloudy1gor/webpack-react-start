@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --open",
+    "dev": "webpack-dev-server --inline",
     "build": "npm run clear -s && webpack --progress",
     "clear": "del-cli dist",
     "lint": "eslint ./src",
@@ -38,15 +38,18 @@
     "prettier": "^2.2.1",
     "sass": "^1.29.0",
     "sass-loader": "^10.1.0",
-    "uglifyjs-webpack-plugin": "^2.2.0",
     "stylelint": "^13.7.2",
     "stylelint-declaration-block-no-ignored-properties": "^2.3.0",
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.18.0",
+    "svg-sprite-loader": "^6.0.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "4.41.2",
     "webpack-bundle-analyzer": "4.4.0",
     "webpack-cli": "3.3.9",
-    "webpack-dev-server": "3.8.2"
+    "webpack-dev-server": "3.8.2",
+    "webpack-notifier": "^1.13.0",
+    "webpackbar": "^5.0.0-3"
   },
   "dependencies": {
     "normalize.css": "^8.0.1",

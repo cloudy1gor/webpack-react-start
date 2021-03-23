@@ -3,6 +3,9 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const WebpackNotifierPlugin = require("webpack-notifier");
+const WebpackBar = require("webpackbar");
+// const SpriteLoaderPlugin = require("svg-sprite-loader/plugin"); TODO-не получилось настроить
 const path = require("path");
 
 const ENV = process.env.npm_lifecycle_event;
@@ -38,8 +41,9 @@ const config = {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
     port: 3000,
-    overlay: true,
+    overlay: true, // выводит на странице ошибку
     hot: true,
+    open: true,
     stats: "errors-only",
     clientLogLevel: "none",
   },
@@ -132,6 +136,15 @@ const config = {
           },
         ],
       },
+      // {
+      //   test: /\.svg$/,
+      //   loader: "svg-sprite-loader",
+      //   options: {
+      //     extract: true,
+      //     outputPath: "./assets/svg/",
+      //     publicPath: "images/svg/",
+      //   },
+      // },
       {
         test: /\.(woff|woff2|ttf|otf|eot)$/,
         use: [
@@ -168,6 +181,9 @@ const config = {
         },
       ],
     }),
+    // new SpriteLoaderPlugin(),
+    new WebpackNotifierPlugin({ onlyOnError: true }),
+    new WebpackBar(),
     new BundleAnalyzerPlugin(),
   ],
 };
