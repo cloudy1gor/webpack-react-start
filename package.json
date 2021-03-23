@@ -1,5 +1,5 @@
 {
-  "name": "react-start",
+  "name": "ReactNotes",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -20,6 +20,7 @@
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^6.3.2",
     "css-loader": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^1.3.0",
     "css-mqpacker": "^7.0.0",
     "cssnano": "^4.1.10",
     "del-cli": "^3.0.1",
@@ -52,8 +53,11 @@
     "webpackbar": "^5.0.0-3"
   },
   "dependencies": {
+    "faker": "^5.4.0",
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
-  }
+  },
+  "repository": "https://github.com/cloudy1gor/ReactNotes.git",
+  "private": false
 }

@@ -1,8 +1,10 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 const WebpackNotifierPlugin = require("webpack-notifier");
 const WebpackBar = require("webpackbar");
 // const SpriteLoaderPlugin = require("svg-sprite-loader/plugin"); TODO-не получилось настроить
@@ -68,7 +70,10 @@ const config = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+            ],
           },
         },
       },
@@ -160,13 +165,29 @@ const config = {
     ],
   },
 
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            "default",
+            {
+              discardComments: { removeAll: true },
+            },
+          ],
+        },
+      }),
+    ],
+  },
+
   resolve: {
     extensions: ["*", ".js", ".jsx"],
   },
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "css/bundle.css",
+      filename: "css/style.css",
     }),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
@@ -176,7 +197,10 @@ const config = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, "./src/assets/images"),
+          from: path.resolve(
+            __dirname,
+            "./src/assets/images"
+          ),
           to: path.resolve(__dirname, "dist/assets/images"),
         },
       ],
