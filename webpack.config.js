@@ -7,7 +7,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const WebpackNotifierPlugin = require("webpack-notifier");
 const WebpackBar = require("webpackbar");
-// const SpriteLoaderPlugin = require("svg-sprite-loader/plugin"); TODO-не получилось настроить
+// const SpriteLoaderPlugin = require("svg-sprite-loader/plugin"); -не получилось настроить
 const path = require("path");
 
 const ENV = process.env.npm_lifecycle_event;
@@ -45,7 +45,7 @@ const config = {
     port: 3000,
     overlay: true, // выводит на странице ошибку
     hot: true,
-    open: true,
+    open: false,
     stats: "errors-only",
     clientLogLevel: "none",
   },
@@ -94,6 +94,11 @@ const config = {
 
           {
             loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: ["css-mqpacker", "autoprefixer"],
+              },
+            },
           },
 
           {
@@ -208,12 +213,14 @@ const config = {
     // new SpriteLoaderPlugin(),
     new WebpackNotifierPlugin({ onlyOnError: true }),
     new WebpackBar(),
-    new BundleAnalyzerPlugin(),
   ],
 };
 
 if (isProd) {
-  config.plugins.push(new UglifyJSPlugin());
+  config.plugins.push(
+    new UglifyJSPlugin(),
+    new BundleAnalyzerPlugin()
+  );
 }
 
 module.exports = config;
