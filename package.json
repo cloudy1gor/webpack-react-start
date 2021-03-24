@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline",
-    "build": "yarn clear -s && webpack --progress",
-    "clear": "del-cli dist",
+    "build": "yarn del -s && webpack --progress",
+    "del": "del-cli dist",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix"
   },
@@ -14,9 +14,11 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.13.1",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.13.5",
     "@babel/preset-react": "^7.12.13",
     "autoprefixer": "^10.0.2",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^6.3.2",
     "css-loader": "^5.0.1",
