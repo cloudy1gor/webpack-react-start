@@ -1,0 +1,196 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const WebpackNotifierPlugin = require("webpack-notifier");
+const WebpackBar = require("webpackbar");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
+const path = require("path");
+
+module.exports = () => {
+  return {
+    mode: "production",
+    entry: ["./src/index.js"],
+    module: {
+      rules: [
+        {
+          test: /\.html$/i,
+          use: [
+            {
+              loader: "html-loader",
+              options: {
+                minimize: true,
+                esModule: false,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.js|jsx$/i,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-react"],
+              plugins: [
+                [
+                  "@babel/plugin-proposal-class-properties",
+                  {
+                    loose: true,
+                  },
+                ],
+              ],
+            },
+          },
+        },
+        {
+          test: /\.(sa|sc|c)ss$/i,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: "../",
+              },
+            },
+            {
+              loader: "css-loader",
+            },
+            {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    "css-mqpacker",
+                    "autoprefixer",
+                    "postcss-preset-env",
+                  ],
+                },
+              },
+            },
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: false,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(jpe?g|png|gif|webp)$/i,
+          type: "javascript/auto",
+          use: [
+            {
+              loader: "file-loader",
+              options: {
+                publicPath: "../",
+                name: "[name].[ext]",
+                outputPath: "images/",
+              },
+            },
+            {
+              loader: "image-webpack-loader",
+              options: {
+                bypassOnDebug: true,
+                mozjpeg: {
+                  progressive: true,
+                  quality: 75,
+                },
+                optipng: {
+                  enabled: true,
+                  optimizationLevel: 5,
+                },
+                pngquant: {
+                  quality: [0.65, 0.8],
+                  speed: 1,
+                },
+                gifsicle: {
+                  interlaced: false,
+                  optimizationLevel: 1,
+                },
+                webp: {
+                  quality: 65,
+                },
+              },
+            },
+          ],
+        },
+        {
+          test: /\.svg$/,
+          use: [
+            {
+              loader: "@svgr/webpack",
+              options: {
+                native: false, // react-native-svg
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(woff(2)?|eot|ttf|otf)$/,
+          type: "javascript/auto",
+          exclude: /images/,
+          loader: "file-loader",
+          options: {
+            publicPath: "../",
+            context: path.resolve(__dirname, "./src/assets"),
+            name: "[path][name].[ext]",
+            emitFile: false,
+          },
+        },
+      ],
+    },
+    resolve: { extensions: ["*", ".js", ".jsx"] },
+    output: {
+      filename: "js/[name].bundle.js",
+      path: path.resolve(__dirname, "./dist"),
+      publicPath: "",
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          extractComments: false,
+          terserOptions: {
+            compress: {
+              drop_console: true,
+            },
+          },
+        }),
+        new CssMinimizerPlugin({
+          minimizerOptions: {
+            preset: [
+              "default",
+              {
+                discardComments: { removeAll: true },
+              },
+            ],
+          },
+        }),
+      ],
+      splitChunks: {
+        chunks: "all",
+      },
+    },
+    plugins: [
+      new MiniCssExtractPlugin({
+        filename: "css/style.min.css",
+      }),
+      new HtmlWebpackPlugin({
+        template: "./src/index.html",
+        filename: "./index.html",
+        // favicon: "./src/images/favicon.ico",
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: "./src/assets/fonts", to: "fonts" },
+          // { from: "./src/assets/images", to: "images" },
+        ],
+      }),
+      new WebpackNotifierPlugin({ onlyOnError: true }),
+      new WebpackBar(),
+      new BundleAnalyzerPlugin(),
+    ],
+  };
+};

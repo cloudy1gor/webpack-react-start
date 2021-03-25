@@ -1,15 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 
-import "./scss/style.scss";
+import "./assets/stylesheets/style.scss";
+import TestSvg from "./assets/svg/test.svg";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div></div>
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <div>
+      <TestSvg width={300} />
+    </div>
+  );
+};
 
 export default App;

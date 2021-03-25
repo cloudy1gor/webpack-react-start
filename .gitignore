@@ -38,7 +38,7 @@ npm-debug.*
 *.psd
 *.png
 dist/
-package.json
+# package.json
 gulpfile.js
 # .jshintrc
 # .stylelintrcs
