@@ -9,10 +9,28 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const path = require("path");
 
-module.exports = () => {
+module.exports = (env) => {
+  const isDev = env.development === true;
+  const isProd = env.production === true;
+  const fileName = (ext) =>
+    isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`;
+
   return {
     mode: "production",
     entry: ["./src/index.js"],
+    target: isDev ? "web" : "browserslist",
+    devtool: isDev ? "source-map" : false,
+    devServer: {
+      contentBase: path.join(__dirname, "./src"),
+      watchContentBase: true,
+      compress: true,
+      port: 3000,
+      overlay: true, // выводит на странице ошибку
+      hot: true,
+      open: true,
+      stats: "errors-only", // только ошибки в консоле
+      clientLogLevel: "none",
+    },
     module: {
       rules: [
         {
@@ -21,7 +39,7 @@ module.exports = () => {
             {
               loader: "html-loader",
               options: {
-                minimize: true,
+                minimize: isProd,
                 esModule: false,
               },
             },
@@ -48,12 +66,7 @@ module.exports = () => {
         {
           test: /\.(sa|sc|c)ss$/i,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                publicPath: "../",
-              },
-            },
+            isDev ? "style-loader" : MiniCssExtractPlugin.loader,
             {
               loader: "css-loader",
             },
@@ -72,7 +85,7 @@ module.exports = () => {
             {
               loader: "sass-loader",
               options: {
-                sourceMap: false,
+                sourceMap: isDev,
               },
             },
           ],
@@ -84,7 +97,7 @@ module.exports = () => {
             {
               loader: "file-loader",
               options: {
-                publicPath: "../",
+                publicPath: isDev ? "./assets/images" : "./images",
                 name: "[name].[ext]",
                 outputPath: "images/",
               },
@@ -143,12 +156,12 @@ module.exports = () => {
     },
     resolve: { extensions: ["*", ".js", ".jsx"] },
     output: {
-      filename: "js/[name].bundle.js",
+      filename: fileName("js"),
       path: path.resolve(__dirname, "./dist"),
       publicPath: "",
     },
     optimization: {
-      minimize: true,
+      minimize: isProd,
       minimizer: [
         new TerserPlugin({
           extractComments: false,
@@ -175,11 +188,11 @@ module.exports = () => {
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "css/style.min.css",
+        filename: fileName("css"),
       }),
       new HtmlWebpackPlugin({
-        template: "./src/index.html",
-        filename: "./index.html",
+        // title: "Start",
+        template: path.resolve(__dirname, "./src/index.html"),
         // favicon: "./src/images/favicon.ico",
       }),
       new CopyWebpackPlugin({
