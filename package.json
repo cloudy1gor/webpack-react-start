@@ -15,7 +15,6 @@
   "devDependencies": {
     "@babel/core": "^7.13.10",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.12.13",
     "@svgr/webpack": "^5.5.0",
     "autoprefixer": "^10.2.5",
@@ -58,6 +57,7 @@
     "webpackbar": "^5.0.0-3"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "faker": "^5.4.0",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",

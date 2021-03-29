@@ -21,13 +21,15 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
     "jsx-quotes": [1, "prefer-double"],
     "indent": ["error", 2],
-    // "linebreak-style": ["error", "windows"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "prefer-destructuring": "off",
-    // "class-methods-use-this": "off",
+    "react/prop-types": 0,
+    "class-methods-use-this": "off",
     "arrow-body-style": ["off", "as-needed"]
   }
 }

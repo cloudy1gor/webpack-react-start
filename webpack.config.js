@@ -27,7 +27,7 @@ module.exports = (env) => {
       port: 3000,
       overlay: true, // выводит на странице ошибку
       hot: true,
-      open: true,
+      open: false,
       stats: "errors-only", // только ошибки в консоле
       clientLogLevel: "none",
     },
@@ -51,7 +51,14 @@ module.exports = (env) => {
           use: {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-env", "@babel/preset-react"],
+              presets: [
+                [
+                  "@babel/preset-react",
+                  {
+                    runtime: "automatic",
+                  },
+                ],
+              ],
               plugins: [
                 [
                   "@babel/plugin-proposal-class-properties",
@@ -207,3 +214,6 @@ module.exports = (env) => {
     ],
   };
 };
+
+// убирает неиспользуемые импорты
+// npx react-codemod update-react-imports
