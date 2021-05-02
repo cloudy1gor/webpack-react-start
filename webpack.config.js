@@ -17,7 +17,7 @@ module.exports = (env) => {
 
   return {
     mode: "production",
-    entry: ["./src/index.js"],
+    entry: ["./src/main.tsx"],
     target: isDev ? "web" : "browserslist",
     devtool: isDev ? "source-map" : false,
     devServer: {
@@ -45,30 +45,41 @@ module.exports = (env) => {
             },
           ],
         },
+        // {
+        //   test: /\.js|jsx$/i,
+        //   exclude: /node_modules/,
+        //   use: {
+        //     loader: "babel-loader",
+        //     options: {
+        //       presets: [
+        //         [
+        //           "@babel/preset-react",
+        //           {
+        //             runtime: "automatic",
+        //           },
+        //         ],
+        //       ],
+        //       plugins: [
+        //         [
+        //           "@babel/plugin-proposal-class-properties",
+        //           {
+        //             loose: true,
+        //           },
+        //         ],
+        //       ],
+        //     },
+        //   },
+        // },
         {
-          test: /\.js|jsx$/i,
+          test: /\.ts|tsx$/i,
           exclude: /node_modules/,
-          use: {
-            loader: "babel-loader",
-            options: {
-              presets: [
-                [
-                  "@babel/preset-react",
-                  {
-                    runtime: "automatic",
-                  },
-                ],
-              ],
-              plugins: [
-                [
-                  "@babel/plugin-proposal-class-properties",
-                  {
-                    loose: true,
-                  },
-                ],
-              ],
+          use: [
+            process.env.NODE_ENV === "production" && {
+              loader: "babel-loader",
+              options: { plugins: ["react-hot-loader/babel"] },
             },
-          },
+            "ts-loader",
+          ].filter(Boolean),
         },
         {
           test: /\.(sa|sc|c)ss$/i,
@@ -161,7 +172,7 @@ module.exports = (env) => {
         },
       ],
     },
-    resolve: { extensions: ["*", ".js", ".jsx"] },
+    resolve: { extensions: [".js", ".ts", ".tsx"] },
     output: {
       filename: fileName("js"),
       path: path.resolve(__dirname, "./dist"),
@@ -199,7 +210,7 @@ module.exports = (env) => {
       }),
       new HtmlWebpackPlugin({
         // title: "Start",
-        template: path.resolve(__dirname, "./src/index.html"),
+        template: path.resolve(__dirname, "./src/assets/templates/index.html"),
         // favicon: "./src/images/favicon.ico",
       }),
       new CopyWebpackPlugin({
